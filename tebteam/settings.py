@@ -79,13 +79,14 @@ WSGI_APPLICATION = 'tebteam.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'ec2-34-203-182-65.compute-1.amazonaws.com',
         'PORT': 5432,
         'USER': 'nwggoodgnssqza',
         'PASSWORD': '247cf552f65cd531f9add557f44d8274dd70838ce854034f2fd6b9bf4728791b',
     }
 }
+DATABASES['default'] =  dj_database_url.config()
 
 
 # Password validation
