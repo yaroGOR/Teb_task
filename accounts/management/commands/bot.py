@@ -3,7 +3,7 @@ from django.conf import settings
 from .airtablemodule import AirtableCustom as AT
 from accounts.models import Account, MyAccountManager
 #from pathlib import Path
-
+import logging
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
@@ -17,7 +17,7 @@ from asgiref.sync import sync_to_async
 from asgiref.sync import sync_to_async
 
 import os
-
+from aiogram import start_webhook
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 
@@ -32,12 +32,19 @@ class FSM(StatesGroup):
 
 class Command(BaseCommand):
 	
-
-
 	help="TelegramBot"
 
 
 	def handle(self, *args, **options):
+		WEBHOOK_HOST ='https://herokuteb.herokuapp.com'
+		WEBHOOK_PATH=f'/webhook/{settings.TELEGRAM_TOKEN}'
+		WEBAPP_HOST='0.0.0.0'
+		WEBAPP_PORT=os.getenv('PORT', default=8000)
+
+		async def on_startup(dispatcher):
+			await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
+		async def on_shutdown(dispatcher):
+			await bot.delete_webhook()
 		storage = MemoryStorage()
 		bot = Bot(token = settings.TELEGRAM_TOKEN)
 		print(settings.TELEGRAM_TOKEN)
@@ -109,8 +116,16 @@ class Command(BaseCommand):
 
 
 
-
-		executor.start_polling(dispatcher=dp, skip_updates = True)
+		logging.basicConfig(level=logging.INFO)
+		start_webhook(
+			dispatcher=dp,
+			webhook_path=WEBHOOK_PATH,
+			skip_updates=True,
+			on_startup=on_startup,
+			on_shutdown=on_shutdown,
+			host=WEBAPP_HOST,
+			port=WEBAPP_PORT,)
+		#executor.start_polling(dispatcher=dp, skip_updates = True)
 
 
 
