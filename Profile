@@ -1,1 +1,1 @@
-web: gunicorn tebteam.wsgi --log-file -
+web: gunicorn tebteam.wsgi
