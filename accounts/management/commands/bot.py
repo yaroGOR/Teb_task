@@ -71,6 +71,25 @@ class Command(BaseCommand):
 			if data['password1']==data['password2']:
 				await message.reply('password is correct')
 				await FSM.passwordcorrect.set()
+				async with state.proxy() as data:
+					print(data)
+				#печать данных в базу данных
+
+				#AT.set_connection()
+				AT.new_record(
+					tgId=str(data['tg_id']), 
+					name = data['name'], 
+					telegram_name=data['telegram_name'], 
+					password=data['password1']
+					)
+				Account.objects.create_user(
+				tgname=data['telegram_name'], 
+				password=data['password1'],
+				tgid=data['tg_id'],
+				username=data['name'])
+				await state.finish()
+				await message.reply('Registration is finished. go to link http:// and auth with your telegram name and password')
+
 			elif data['password1']!=data['password2']:
 				await message.reply('password is not correct, try again')
 				await FSM.password1.set()
@@ -96,10 +115,11 @@ class Command(BaseCommand):
 			password=data['password1'],
 			tgid=data['tg_id'],
 			username=data['name'])
-		
-			
+			await message.reply(f'''Registration is finished. 
+				https://herokuteb.herokuapp.com/accounts/login/ 
+				Auth with your telegram_name: {data['telegram_name']} 
+				and password''')
 			await state.finish()
-			await message.reply('Registration is finished. go to link https^// and auth with your telegram name and password')
 
 
 
