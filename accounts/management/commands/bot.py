@@ -98,36 +98,10 @@ class Command(BaseCommand):
 				await message.reply('Password is not correct, try again')
 				await FSM.password1.set()
 
-<<<<<<< HEAD
+
+
 		
-=======
 
-		@dp.message_handler(state = FSM.passwordcorrect)
-		async def registration_finished(message: types.Message, state = FSMContext):
-			print('registration finished')
-
-			async with state.proxy() as data:
-				print(data)
-			#печать данных в базу данных
-
-			#AT.set_connection()
-			AT.new_record(
-				tgId=str(data['tg_id']), 
-				name = data['name'], 
-				telegram_name=data['telegram_name'], 
-				password=data['password1']
-				)
-			Account.objects.create_user(
-			tgname=data['telegram_name'], 
-			password=data['password1'],
-			tgid=data['tg_id'],
-			username=data['name'])
-			await message.reply(f'''Registration is finished. 
-				Auth with your telegram_name: {data['telegram_name']} 
-				and password''')
-			await state.finish()
-
->>>>>>> ad370f7c2a32074961dedff16ae6dbd655a0fa25
 
 
 			     
