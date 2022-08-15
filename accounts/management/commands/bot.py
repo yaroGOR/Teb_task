@@ -116,7 +116,6 @@ class Command(BaseCommand):
 			tgid=data['tg_id'],
 			username=data['name'])
 			await message.reply(f'''Registration is finished. 
-				https://herokuteb.herokuapp.com/accounts/login/ 
 				Auth with your telegram_name: {data['telegram_name']} 
 				and password''')
 			await state.finish()
