@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+  <h1>This is your account page: </h1>
+
+
+  <p>Here is your telegram account details:</p>
+  <ul>
+    <li><strong>Telegram name:</strong>
+    <a href='http://t.me/{{user.tgname}}'> {{ user.tgname }}</a></li>
+    <li><strong>Full name:</strong>
+    {{ user.username }}</li>
+    
+    <li><strong>Telegram id: </strong>
+    {{ user.tgid }}</li>
+    
+    
+  </ul>
+  <a href ='http://t.me/{{user.tgname}}'>
+    <button>Jump to telegram profile</button>
+  </a>
+
+{% endblock %}
