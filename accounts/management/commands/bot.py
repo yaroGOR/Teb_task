@@ -17,7 +17,8 @@ from asgiref.sync import sync_to_async
 from asgiref.sync import sync_to_async
 
 import os
-from aiogram import start_webhook
+
+#from aiogram import start_webhook
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 
@@ -36,7 +37,7 @@ class Command(BaseCommand):
 
 
 	def handle(self, *args, **options):
-		WEBHOOK_HOST ='https://herokuteb.herokuapp.com'
+		'''WEBHOOK_HOST ='https://herokuteb.herokuapp.com'
 		WEBHOOK_PATH=f'/webhook/{settings.TELEGRAM_TOKEN}'
 		WEBAPP_HOST='0.0.0.0'
 		WEBAPP_PORT=os.getenv('PORT', default=8000)
@@ -44,7 +45,7 @@ class Command(BaseCommand):
 		async def on_startup(dispatcher):
 			await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 		async def on_shutdown(dispatcher):
-			await bot.delete_webhook()
+			await bot.delete_webhook()'''
 		storage = MemoryStorage()
 		bot = Bot(token = settings.TELEGRAM_TOKEN)
 		print(settings.TELEGRAM_TOKEN)
@@ -116,7 +117,7 @@ class Command(BaseCommand):
 
 
 
-		logging.basicConfig(level=logging.INFO)
+		'''logging.basicConfig(level=logging.INFO)
 		start_webhook(
 			dispatcher=dp,
 			webhook_path=WEBHOOK_PATH,
@@ -124,8 +125,10 @@ class Command(BaseCommand):
 			on_startup=on_startup,
 			on_shutdown=on_shutdown,
 			host=WEBAPP_HOST,
-			port=WEBAPP_PORT,)
-		#executor.start_polling(dispatcher=dp, skip_updates = True)
+			port=WEBAPP_PORT,)'''
+
+
+		executor.start_polling(dispatcher=dp, skip_updates = True)
 
 
 
