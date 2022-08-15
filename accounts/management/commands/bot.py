@@ -47,7 +47,7 @@ class Command(BaseCommand):
 		async def process_start_command(message: types.Message):
 			data1 = [message.from_user.id, message.from_user.first_name, message.from_user.username]
 			await FSM.password1.set()
-			await message.reply(f"Привет, {message.from_user.first_name}, придумай пароль:")
+			await message.reply(f"Hi, {message.from_user.first_name}, create password:")
 			print(data1)
 
 		@dp.message_handler(state=FSM.password1)
@@ -61,7 +61,7 @@ class Command(BaseCommand):
 				data['telegram_name']=message.from_user.username
 
 			await FSM.password2.set()
-			await message.reply('повтори пароль:')
+			await message.reply('Repeat password:')
 
 		@dp.message_handler(state = FSM.password2)
 		async def password_check(message: types.Message, state=FSMContext):
@@ -69,7 +69,7 @@ class Command(BaseCommand):
 			async with state.proxy() as data:
 				data['password2']=pw2
 			if data['password1']==data['password2']:
-				await message.reply('password is correct')
+				await message.reply('Password is correct')
 				await FSM.passwordcorrect.set()
 				async with state.proxy() as data:
 					print(data)
@@ -87,40 +87,18 @@ class Command(BaseCommand):
 				password=data['password1'],
 				tgid=data['tg_id'],
 				username=data['name'])
-				await state.finish()
-				await message.reply('Registration is finished. go to link http:// and auth with your telegram name and password')
-
-			elif data['password1']!=data['password2']:
-				await message.reply('password is not correct, try again')
-				await FSM.password1.set()
-
-
-		@dp.message_handler(state = FSM.passwordcorrect)
-		async def registration_finished(message: types.Message, state = FSMContext):
-			print('registration finished')
-
-			async with state.proxy() as data:
-				print(data)
-			#печать данных в базу данных
-
-			#AT.set_connection()
-			AT.new_record(
-				tgId=str(data['tg_id']), 
-				name = data['name'], 
-				telegram_name=data['telegram_name'], 
-				password=data['password1']
-				)
-			Account.objects.create_user(
-			tgname=data['telegram_name'], 
-			password=data['password1'],
-			tgid=data['tg_id'],
-			username=data['name'])
-			await message.reply(f'''Registration is finished. 
+				await message.reply(f'''Registration is finished. 
 				https://herokuteb.herokuapp.com/accounts/login/ 
 				Auth with your telegram_name: {data['telegram_name']} 
 				and password''')
-			await state.finish()
+				print('registration finished')
+				await state.finish()
 
+			elif data['password1']!=data['password2']:
+				await message.reply('Password is not correct, try again')
+				await FSM.password1.set()
+
+		
 
 
 			     
