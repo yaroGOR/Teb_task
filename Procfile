@@ -1,3 +1,1 @@
-web: gunicorn tebteam.wsgi 
-
-web: python manage.py runserver
+web: gunicorn tebteam.wsgi --log-file -
