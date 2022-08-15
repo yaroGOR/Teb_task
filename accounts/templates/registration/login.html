@@ -15,22 +15,22 @@
   {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
+<form method="post" class='' action="{% url 'login' %}">
 {% csrf_token %}
 <table>
 
 <tr>
-  <td>{{ form.username.label_tag }}</td>
+  <td class ='input'>{{ form.username.label_tag }}</td>
   <td>{{ form.username }}</td>
 </tr>
 
 <tr>
-  <td>{{ form.password.label_tag }}</td>
+  <td class='input'>{{ form.password.label_tag }}</td>
   <td>{{ form.password }}</td>
 </tr>
 </table>
 
-<input type="submit" value="login" />
+<input type="submit" value="login" style =''/>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
